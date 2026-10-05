@@ -25,6 +25,11 @@ const emptyForm: FormState = {
   files: "",
 };
 
+function isManagedUpload(fileHref: string) {
+  return fileHref.startsWith("/uploads/") ||
+    (fileHref.includes(".blob.vercel-storage.com/") && fileHref.includes("/uploads/"));
+}
+
 /** Renders a material card exactly as it appears on the public page */
 function MaterialPreviewCard({ entry }: { entry: AdminEntry }) {
   return (
@@ -149,7 +154,7 @@ export function AdminPanel() {
   /** Remove one file chip and delete the physical file if it was uploaded */
   async function removeKeptFile(file: ImportedFile) {
     setKeptFiles((prev) => prev.filter((f) => f.href !== file.href));
-    if (file.href.startsWith("/uploads/")) {
+    if (isManagedUpload(file.href)) {
       await fetch(`/api/upload?href=${encodeURIComponent(file.href)}`, {
         method: "DELETE",
       });
@@ -264,7 +269,7 @@ export function AdminPanel() {
       // Once the material has been removed, clean up any files it had uploaded.
       await Promise.all(
         entry.files
-          .filter((file) => file.href.startsWith("/uploads/"))
+          .filter((file) => isManagedUpload(file.href))
           .map((file) =>
             fetch(`/api/upload?href=${encodeURIComponent(file.href)}`, {
               method: "DELETE",
