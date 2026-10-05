@@ -1,0 +1,23 @@
+{
+  "name": "pemzashen-secondary-school",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --webpack",
+    "build": "next build",
+    "import:wordpress": "node --use-system-ca scripts/import-wordpress.mjs",
+    "start": "next start --hostname 127.0.0.1"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "next-intl": "^4.12.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}

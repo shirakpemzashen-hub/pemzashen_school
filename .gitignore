@@ -1,0 +1,11 @@
+.next
+node_modules
+out
+.env*.local
+npm-debug.log*
+*.log
+.claude/
+*.tsbuildinfo
+data/materials.json
+public/uploads/*
+!public/uploads/.gitkeep
