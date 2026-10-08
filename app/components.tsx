@@ -17,8 +17,17 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
           <a href="tel:093182898">093-18-28-98</a>
           <a href="tel:093472123">093-47-21-23</a>
           <a href="mailto:shirak.pemzashen@gmail.com">shirak.pemzashen@gmail.com</a>
-          <small>{t("footer.madeBy")}</small>
-          <strong>{t("footer.madeByName")}</strong>
+          <small>
+            Website by{" "}
+            <a
+              className="businessin-link"
+              href="https://businessin.am/"
+              target="_blank"
+              rel="nofollow noreferrer"
+            >
+              BusinessIN
+            </a>
+          </small>
         </div>
       </footer>
     </>

@@ -923,6 +923,19 @@ img {
   font-size: 0.92rem;
 }
 
+.footer-credits .businessin-link {
+  display: inline;
+  margin: 0;
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.footer-credits .businessin-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .page-feature {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
