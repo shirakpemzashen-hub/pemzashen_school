@@ -1,11 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { get, put } from "@vercel/blob";
+import { revalidateTag, unstable_cache } from "next/cache";
 import type { AdminEntry } from "./user-materials";
 
 const dataDir = path.join(process.cwd(), "data");
 const dataFile = path.join(dataDir, "materials.json");
 const blobPath = "admin/materials.json";
+const materialsCacheTag = "materials";
 
 function hasBlobStore() {
   return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
@@ -26,13 +28,19 @@ async function ensureStore() {
   }
 }
 
-export async function readMaterials() {
-  ensurePersistentStore();
-  if (hasBlobStore()) {
-    const result = await get(blobPath, { access: "public", useCache: false });
+const readBlobMaterials = unstable_cache(
+  async () => {
+    const result = await get(blobPath, { access: "public" });
     if (!result?.stream) return [];
     return JSON.parse(await new Response(result.stream).text()) as AdminEntry[];
-  }
+  },
+  ["materials"],
+  { revalidate: 86_400, tags: [materialsCacheTag] },
+);
+
+export async function readMaterials() {
+  ensurePersistentStore();
+  if (hasBlobStore()) return readBlobMaterials();
   await ensureStore();
   const value = await readFile(dataFile, "utf8");
   return JSON.parse(value) as AdminEntry[];
@@ -46,6 +54,7 @@ export async function writeMaterials(entries: AdminEntry[]) {
       allowOverwrite: true,
       contentType: "application/json",
     });
+    revalidateTag(materialsCacheTag, { expire: 0 });
     return;
   }
   await ensureStore();

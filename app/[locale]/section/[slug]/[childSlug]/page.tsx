@@ -2,9 +2,8 @@ import { notFound } from "next/navigation";
 import { Link } from "../../../../../i18n/navigation";
 import { SiteShell } from "../../../../components";
 import { sections } from "../../../../data";
+import { readMaterials } from "../../../../materials-store";
 import { UserMaterials } from "../../../../user-materials";
-
-export const dynamic = "force-dynamic";
 
 const PAGE_FEATURES: Record<
   string,
@@ -64,6 +63,7 @@ export default async function ChildSectionPage({
   }
 
   const feature = PAGE_FEATURES[`${section.slug}/${page.slug}`];
+  const entries = await readMaterials();
 
   return (
     <SiteShell>
@@ -92,7 +92,11 @@ export default async function ChildSectionPage({
         </section>
       ) : null}
 
-      <UserMaterials sectionSlug={section.slug} pageSlug={page.slug} />
+      <UserMaterials
+        sectionSlug={section.slug}
+        pageSlug={page.slug}
+        entries={entries}
+      />
     </SiteShell>
   );
 }

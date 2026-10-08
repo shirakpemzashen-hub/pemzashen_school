@@ -2,8 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "../../../../i18n/navigation";
 import { SiteShell } from "../../../components";
 
-export const dynamic = "force-dynamic";
-
 const SCHOOL_EMAIL = "shirak.pemzashen@gmail.com";
 const SCHOOL_PHONES = ["093-18-28-98", "093-47-21-23"];
 const SCHOOL_ADDRESS = "ՀՀ Շիրակի մարզ, Արթիկ համայնք, բնակավայր Պեմզաշեն, 1-ին փողոց, շենք 2";
