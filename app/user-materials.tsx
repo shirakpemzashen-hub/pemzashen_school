@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { groupFilesByYear, type ImportedFile } from "./imported-content";
 
@@ -68,19 +68,13 @@ function FileOrImage({ file, entryId }: { file: ImportedFile; entryId: string })
 export function UserMaterials({
   sectionSlug,
   pageSlug,
+  entries,
 }: {
   sectionSlug: string;
   pageSlug: string;
+  entries: AdminEntry[];
 }) {
   const t = useTranslations("userMaterials");
-  const [entries, setEntries] = useState<AdminEntry[]>([]);
-
-  useEffect(() => {
-    fetch("/api/materials")
-      .then((response) => response.json())
-      .then((data: AdminEntry[]) => setEntries(data))
-      .catch(() => setEntries([]));
-  }, []);
 
   const pageEntries = useMemo(
     () =>

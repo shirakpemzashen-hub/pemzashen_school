@@ -4,8 +4,6 @@ import { Link } from "../../../../i18n/navigation";
 import { SiteShell } from "../../../components";
 import { sections } from "../../../data";
 
-export const dynamic = "force-dynamic";
-
 export function generateStaticParams() {
   return sections.map((section) => ({ slug: section.slug }));
 }
